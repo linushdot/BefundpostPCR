@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Befundpost PCR</string>
+    <string name="date">Date</string>
+    <string name="code">Code</string>
+    <string name="result">Result</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="touch_to_activate_scanner">Touch to activate scanner</string>
+</resources>
