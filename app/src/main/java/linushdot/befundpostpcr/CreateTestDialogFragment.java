@@ -129,6 +129,14 @@ public class CreateTestDialogFragment extends DialogFragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if(cameraSource != null) {
+            cameraSource.release();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if(getDialog() != null) {
