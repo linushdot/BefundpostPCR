@@ -6,4 +6,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="touch_to_activate_scanner">Touch to activate scanner</string>
+
+    <string name="content_authority">linushdot.befundpostpcr.provider</string>
+    <string name="account_type">linushdot.befundpostpcr</string>
+    <string name="account_name">Befundpost PCR</string>
 </resources>

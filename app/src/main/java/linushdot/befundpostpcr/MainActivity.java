@@ -20,12 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String ACCOUNT_TYPE = "linushdot.befundpostpcr";
-    public static final String ACCOUNT = "Befundpost PCR";
-    public static final String AUTHORITY = "linushdot.befundpostpcr.provider";
     public static final long POLL_FREQUENCY = 15 * 60; // in seconds
-
-    private static final Account account = new Account(ACCOUNT, ACCOUNT_TYPE);
 
     private RecyclerView recyclerView;
     private TestAdapter mAdapter;
@@ -40,11 +35,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final String contentAuthority = getString(R.string.content_authority);
+        final String accountType = getString(R.string.account_type);
+        final String accountName = getString(R.string.account_name);
+        final Account account = new Account(accountName, accountType);
+
         AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         accountManager.addAccountExplicitly(account,null, null);
-        ContentResolver.setIsSyncable(account, AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
-        ContentResolver.addPeriodicSync(account, AUTHORITY, Bundle.EMPTY, POLL_FREQUENCY);
+        ContentResolver.setIsSyncable(account, contentAuthority, 1);
+        ContentResolver.setSyncAutomatically(account, contentAuthority, true);
+        ContentResolver.addPeriodicSync(account, contentAuthority, Bundle.EMPTY, POLL_FREQUENCY);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(false);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         fabSync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ResetResultsTask(testDao).execute();
+                new ResetResultsTask(testDao, contentAuthority, account).execute();
             }
         });
     }
@@ -104,11 +104,15 @@ public class MainActivity extends AppCompatActivity {
         private final WeakReference<TestDao> reference;
         private final Date date;
         private final String code;
+        private final String contentAuthority;
+        private final Account account;
 
-        public CreateTask(TestDao dao, Date date, String code) {
+        public CreateTask(TestDao dao, Date date, String code, String contentAuthority, Account account) {
             this.reference = new WeakReference<>(dao);
             this.date = date;
             this.code = code;
+            this.contentAuthority = contentAuthority;
+            this.account = account;
         }
 
         @Override
@@ -119,10 +123,12 @@ public class MainActivity extends AppCompatActivity {
                 test.date = date;
                 test.code = code;
                 dao.insertAll(test);
-                ContentResolver.requestSync(account, AUTHORITY, Bundle.EMPTY);
+                ContentResolver.requestSync(account, contentAuthority, Bundle.EMPTY);
             }
             return null;
         }
+
+
     }
 
     public static class UpdateTask extends AsyncTask<Void,Void,Void> {
@@ -165,9 +171,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static class ResetResultsTask extends AsyncTask<Void,Void,Void> {
         private final WeakReference<TestDao> reference;
+        private final String contentAuthority;
+        private final Account account;
 
-        public ResetResultsTask(TestDao dao) {
+        public ResetResultsTask(TestDao dao, String contentAuthority, Account account) {
             this.reference = new WeakReference<>(dao);
+            this.contentAuthority = contentAuthority;
+            this.account = account;
         }
 
         @Override
@@ -185,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             final Bundle bundle = new Bundle();
             bundle.putBoolean(SyncAdapter.EXTRA_DO_NOT_NOTIFY, true);
             bundle.putBoolean(SyncAdapter.EXTRA_SYNC_ALL, true);
-            ContentResolver.requestSync(account, AUTHORITY, bundle);
+            ContentResolver.requestSync(account, contentAuthority, bundle);
             return null;
         }
     }

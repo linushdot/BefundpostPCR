@@ -45,7 +45,7 @@
 
         <provider
             android:name=".StubProvider"
-            android:authorities="linushdot.befundpostpcr.provider"
+            android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true"/>
 
