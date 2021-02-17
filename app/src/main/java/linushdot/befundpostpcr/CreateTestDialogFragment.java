@@ -1,6 +1,7 @@
 package linushdot.befundpostpcr;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -94,9 +95,13 @@ public class CreateTestDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
+                            final Account account = new Account(
+                                    getString(R.string.account_name), getString(R.string.account_type));
                             new MainActivity.CreateTask(testDao,
                                     getDateFormat().parse(date.getText().toString()),
-                                    code.getText().toString()).execute();
+                                    code.getText().toString(),
+                                    getString(R.string.content_authority),
+                                    account).execute();
                         } catch(ParseException e) {
                             // ignore
                         }
