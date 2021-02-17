@@ -117,7 +117,7 @@ public class CreateTestDialogFragment extends DialogFragment {
     }
 
     protected DateFormat getDateFormat() {
-        return new SimpleDateFormat("ddMMyyyy", Locale.getDefault());
+        return new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     }
 
     @Override
