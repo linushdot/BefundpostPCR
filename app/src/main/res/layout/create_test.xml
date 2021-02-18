@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -17,20 +18,35 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp" />
 
-    <SurfaceView
-        android:id="@+id/surface"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        app:layout_constraintDimensionRatio="H,4:3" >
 
-    <TextView
-        android:id="@+id/touchToActivate"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@android:color/black"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:text="@string/touch_to_activate_scanner" />
+        <SurfaceView
+            android:id="@+id/surface"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H,3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/touchToActivate"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="H,3:4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/black"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:text="@string/touch_to_activate_scanner" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
         android:id="@+id/code"
