@@ -14,9 +14,11 @@ android {
     }
 
     buildTypes {
-        debug {
-            applicationIdSuffix '.debug'
-            versionNameSuffix '-debug'
+        dev {
+            applicationIdSuffix '.dev'
+            versionNameSuffix '-dev'
+            signingConfig signingConfigs.debug
+            debuggable true
         }
         release {
             minifyEnabled false
