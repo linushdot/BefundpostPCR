@@ -37,6 +37,9 @@ import java.util.Locale;
 
 public class CreateTestDialogFragment extends DialogFragment {
 
+    // only read barcodes with fixed length or cap if longer
+    private static final int BARCODE_LENGTH = 10;
+
     private final TestDao testDao;
 
     private SurfaceView surfaceView;
@@ -194,20 +197,14 @@ public class CreateTestDialogFragment extends DialogFragment {
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if(barcodes.size() != 0) {
-                    barcodeText.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(barcodes.valueAt(0).email != null) {
-                                barcodeText.removeCallbacks(null);
-                                barcodeData = barcodes.valueAt(0).email.address;
-                            } else {
-                                barcodeData = barcodes.valueAt(0).displayValue;
-                            }
-                            barcodeText.setText(barcodeData);
-                            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
-                        }
-                    });
+                for(int i=0; i<barcodes.size(); i++) {
+                    final Barcode barcode = barcodes.valueAt(i);
+                    if(barcode.displayValue.length() >= BARCODE_LENGTH) {
+                        barcodeData = barcode.displayValue.substring(0, BARCODE_LENGTH);
+                        barcodeText.setText(barcodeData);
+                        toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                        break;
+                    }
                 }
             }
         });
