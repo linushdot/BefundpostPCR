@@ -37,4 +37,15 @@
         app:layout_anchorGravity="top"
         android:translationY="-16dp" />
 
+    <TextView
+        android:id="@+id/update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:autoLink="web"
+        android:background="#ffffff"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

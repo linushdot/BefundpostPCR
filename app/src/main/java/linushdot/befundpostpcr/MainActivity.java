@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private FloatingActionButton fabAdd, fabSync;
+    private TextView updateText;
 
     private TestDao testDao;
 
@@ -96,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new ResetResultsTask(testDao, contentAuthority, account).execute();
+            }
+        });
+
+        updateText = findViewById(R.id.update);
+        new UpdateChecker(this).check(new UpdateChecker.Handler() {
+            @Override
+            public void needsUpdate(String url) {
+                updateText.setText(String.format(getString(R.string.update_available), url));
+                updateText.setVisibility(View.VISIBLE);
             }
         });
     }
