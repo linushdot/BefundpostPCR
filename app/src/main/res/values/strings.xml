@@ -10,4 +10,6 @@
     <string name="content_authority">linushdot.befundpostpcr.provider</string>
     <string name="account_type">linushdot.befundpostpcr</string>
     <string name="account_name">Befundpost PCR</string>
+
+    <string name="update_available">Update available: %s</string>
 </resources>
